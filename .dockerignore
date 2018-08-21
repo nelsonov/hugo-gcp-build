@@ -1,6 +1,7 @@
 *~
-*#
 *json
 *tar
 *gz
 *txt
+util/**/*
+util

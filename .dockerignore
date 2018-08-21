@@ -3,5 +3,7 @@
 *tar
 *gz
 *txt
+nelnet-site/**/*
+nelnet-site
 util/**/*
 util

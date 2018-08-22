@@ -1,0 +1,52 @@
+* hugobuild
+This is a simple [[http://gohugo.io/][Hugo]] site builder.
+
+** Some Features
+
+- Uses latest golang:alpine
+- Downloads and compiles latest version of Hugo
+
+** Usage
+
+*** Example run command
+#+BEGIN_SRC bash
+docker run someregistry/hugobuild
+#+END_SRC
+
+The above command assumes that the site source directory is visible to
+hugo through some sort of magic such as during a CI build process.
+
+The site will be built in the *public* directory in the site source.
+This is using the default Hugo behavior.
+
+To mount a local directory as the site source, use something like:
+#+BEGIN_SRC bash
+docker run --mount type=bind,src=/some/path/to/site,dst=/workspace \
+  someregistry/hugobuild
+#+END_SRC
+
+*** Default command
+
+The Dockerfile specifies:
+#+BEGIN_SRC 
+ENV SRCPATH /workspace
+ENTRYPOINT ["sh", "-c", "hugo -s $SRCPATH"]
+#+END_SRC
+
+This simply launches hugo and specifies a source directory to build in.
+
+The default source directory is */workspace*. This can be overridden
+when running the container by overrideing the environment variable
+*SRCPATH*.
+#+BEGIN_SRC bash
+docker run -e SRCPATH=/some/other/path someregistry/hugobuild
+#+END_SRC
+
+Any extra arguments to be passed to hugo can be placed at the end of
+the run command.  For instance, to hugo in verbose mode:
+#+BEGIN_SRC bash
+docker run someregistry/hugobuild --verbose
+#+END_SRC
+
+** Future plans
+- Reduce image size.  It's massive, nearly 1.5GB

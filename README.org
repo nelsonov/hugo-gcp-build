@@ -2,12 +2,11 @@
 This is a simple [[http://gohugo.io/][Hugo]] site builder.
 
 ** Some Features
-
-- Uses latest golang:alpine
 - Downloads and compiles latest version of Hugo
+- Uses latest golang
+- Uses latest debian to run binary
 
 ** Usage
-
 *** Example run command
 #+BEGIN_SRC bash
 docker run someregistry/hugobuild
@@ -25,8 +24,10 @@ docker run --mount type=bind,src=/some/path/to/site,dst=/workspace \
   someregistry/hugobuild
 #+END_SRC
 
-*** Default command
+The hugo binary at */go/bin/hugo*.  The PATH includes /go/bin, so it's
+possible to execute hugo without the whole path.
 
+*** Default run command
 The Dockerfile specifies:
 #+BEGIN_SRC 
 ENV SRCPATH /workspace
@@ -35,6 +36,7 @@ ENTRYPOINT ["sh", "-c", "hugo -s $SRCPATH"]
 
 This simply launches hugo and specifies a source directory to build in.
 
+*** Options
 The default source directory is */workspace*. This can be overridden
 when running the container by overrideing the environment variable
 *SRCPATH*.
@@ -47,6 +49,3 @@ the run command.  For instance, to hugo in verbose mode:
 #+BEGIN_SRC bash
 docker run someregistry/hugobuild --verbose
 #+END_SRC
-
-** Future plans
-- Reduce image size.  It's massive, nearly 1.5GB
